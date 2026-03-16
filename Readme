@@ -1,0 +1,115 @@
+Project Overview
+This project applies Principal Component Analysis (PCA) to the well-known Breast Cancer Wisconsin Dataset (built into scikit-learn). The dataset contains 569 patient records, each described by 30 numerical features computed from digitized images of fine needle aspirate (FNA) of breast masses.
+The goal of this project is to:
+
+Understand the structure and correlation among 30 medical features
+Use PCA to reduce dimensionality from 30 → 2 components
+Visualize whether the reduced data can still clearly distinguish between Malignant and Benign tumors
+Interpret which features drive each principal component
+
+
+The Core Problem
+Medical datasets often contain dozens of highly correlated features. For example, radius_mean, perimeter_mean, and area_mean all measure similar aspects of a tumor cell — they carry overlapping information. This leads to:
+
+Redundant features that add noise, not signal
+Difficulty visualizing high-dimensional data
+Slower, overfitting-prone machine learning models
+
+PCA solves this by finding new axes (principal components) that capture the maximum variance in the data — effectively compressing the information without losing what matters.
+
+💡 Key Results
+MetricValueOriginal Features30Components after PCA2 (for visualization)Variance Retained~63% with 2 PCsComponents for 90% Variance7 PCs (out of 30)Components for 95% Variance10 PCs (out of 30)Classes Visually Separable?✅ Yes — clearly in 2D
+📉 Dimensionality Reduction Impact
+Before PCA:   30 features ████████████████████████████████
+After PCA:     2 features ██                                  (for visualization)
+              7 features ███████                             (retains 90% info)
+             10 features ██████████                          (retains 95% info)
+
+With just 7 out of 30 features, we can retain 90% of all the information in the dataset. That's a 76% reduction in complexity.
+
+
+📊 Visualizations Included
+1. Class Distribution
+Shows the balance between Malignant (212) and Benign (357) cases in the dataset.
+2. Correlation Heatmap
+Reveals that many of the 30 features are highly correlated (r > 0.8) with each other — this is exactly the condition where PCA delivers the most value.
+3. Scree Plot
+Displays the variance explained by each individual principal component, helping identify the "elbow point."
+4. Cumulative Variance Plot
+Shows how many components are needed to retain 80%, 90%, and 95% of the total variance.
+5. PCA 2D Scatter Plot ⭐
+The most impactful visual — plots all 569 patients in 2D space (PC1 vs PC2), colored by diagnosis. Despite compressing 30 features into 2, Malignant and Benign cases form clearly separated clusters.
+6. Feature Loadings Heatmap
+Shows the contribution of each original feature to PC1 and PC2, revealing which medical measurements are most important.
+
+
+How to Run
+Option 1: Run Locally
+bash# 1. Clone this repository
+git clone https://github.com/your-username/breast-cancer-pca.git
+cd breast-cancer-pca
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Launch Jupyter Notebook
+Jupyter Notebook breast_cancer_pca.ipynb
+Option 2: Run on Google Colab
+Click the badge below to open directly in Colab — no setup needed:
+Show Image
+
+The dataset is built into scikit-learn — no CSV download required.
+
+
+Requirements
+pandas>=1.3.0
+numpy>=1.21.0
+matplotlib>=3.4.0
+seaborn>=0.11.0
+scikit-learn>=1.0.0
+jupyter>=1.0.0
+Or install all at once:
+bashpip install pandas numpy matplotlib seaborn scikit-learn jupyter
+
+🔢 Step-by-Step Notebook Walkthrough
+The notebook is organized into 10 clear steps:
+StepTitleWhat it does1Import LibrariesSets up all Python packages2Load DatasetLoads data directly from sklearn (no file needed)3Exploratory Data AnalysisShape, dtypes, class distribution4Correlation HeatmapVisualizes feature redundancy — motivates PCA5Feature ScalingStandardScaler → mean=0, std=16Scree PlotDecides optimal number of components7Apply PCATransforms 30 features → 2 components82D Scatter PlotVisualizes class separation in reduced space9Loadings AnalysisInterprets what each component represents10Save ResultsExports PCA-transformed CSV
+
+🧠 What I Learned
+
+Why scaling matters: Without StandardScaler, features with large numeric ranges (like area_mean) would dominate PCA unfairly.
+PCA doesn't use labels: It is completely unsupervised — yet the 2D result still separates cancer types clearly, proving real structure exists in the data.
+Correlation = opportunity: The high correlation between features (30+ pairs with r > 0.8) is precisely what makes PCA so effective here.
+Diminishing returns: PC1 alone explains ~44% of variance. Each additional component contributes less — the scree plot makes this intuitive.
+Loadings reveal biology: Features like concave points_mean, radius_worst, and perimeter_worst are the strongest drivers of PC1, aligning with what clinicians know about tumor malignancy indicators.
+
+
+📈 Why This Matters in Real Life
+In real medical settings, high-dimensional data like this is common. PCA-style dimensionality reduction:
+
+Speeds up downstream machine learning models
+Removes noise from redundant features
+Enables visualization of otherwise invisible patterns
+Is used in real genomics, radiology, and pathology pipelines
+
+This project demonstrates the full pipeline — from raw 30-feature medical data to a clean, interpretable 2D representation — that forms the foundation of modern medical data science.
+
+ Dataset Reference
+
+Name: Breast Cancer Wisconsin (Diagnostic) Dataset
+Source: UCI Machine Learning Repository
+Loaded via: sklearn.datasets.load_breast_cancer()
+Samples: 569 patients
+Features: 30 numeric (computed from digitized FNA images)
+Target: Binary — Malignant (0) or Benign (1)
+
+
+License
+This project is licensed under the MIT License — free to use, modify, and share with attribution.
+
+Author
+Janvi Pawar
+janvipawar.n@gmail.com
+
+
+If you found this project useful, consider giving it a ⭐ on GitHub!
